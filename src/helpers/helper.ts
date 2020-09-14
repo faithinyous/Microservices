@@ -1,13 +1,8 @@
 import express from "express";
 import _ from "lodash";
+import {cassandraExe} from "@/cassandra";
 export default class Helper {
 
-  /**
-   * This is a helper function for checking the input parameters of incoming request.
-   * @param {string[]} params require list of header need to use
-   * @param {express.Request} req The request.
-   * @param {express.Response} res The response. Optional, pass in the response for directly return the bad request.
-   */
   public static verifyRequestParams(
     params: string[],
     req: express.Request,
@@ -43,6 +38,22 @@ export default class Helper {
       });
     }
     return false;
+  }
+
+  public static async  verifyPartner(
+
+    req: express.Request,
+    res?: express.Response
+  ) {
+    const query = `SELECT id FROM databaseTesla.partner WHERE token = ?`
+    return await cassandraExe(query,[ req.body.token], (err: any, result: any) => {
+      if (err) {
+        console.log(err)
+        return -1
+      }
+      return result.rows[0].id
+    });
+
   }
 
 }
