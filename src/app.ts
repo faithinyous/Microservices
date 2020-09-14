@@ -48,11 +48,6 @@ class App {
       })
     );
     this.app.use(this.allowCrossDomain);
-
-    this.app.use(
-      // @ts-ignore
-      session(sessionOptions)
-    );
     this.app.use(gExpressMiddleware);
   }
   allowCrossDomain: express.RequestHandler = (req, res, next) => {
@@ -66,9 +61,7 @@ class App {
 
   private initializeRouter() {
     this.app.use("/", router);
-    const googleDriver = new GoogleDrive(this.googleClient.oAuth2Client);
-    UploadController.drive = googleDriver as any;
-
+  }
   public listen() {
     this.app.listen(this.port, () => {
       console.log(`App listening on port ${this.port}`);
