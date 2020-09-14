@@ -26,9 +26,5 @@ declare global {
 
       gSendError: (message: string, statusCode?: 500 | 503) => any;
     }
-
-    export interface Request {
-      gSession?: ExpressServer.Session;
-    }
   }
 }
