@@ -1,14 +1,12 @@
 /// <reference types="./typings/express/" />
 
+import assert from "assert";
+
 require("dotenv").config();
 import bodyParser from "body-parser";
 import express from "express";
 import router from "./routes";
 import "dotenv/config";
-//todo
-// import errorHandler from "./middlewares/error.middleware";
-// import authMiddleware from "./middlewares/auth.middleware";
-
 
 // @ts-ignore
 import { gExpressMiddleware } from "./express-extension";
@@ -19,7 +17,6 @@ class App {
 
 
   constructor(port: number) {
-    // This is where the methods get called
     this.app = express();
     this.port = port;
   }
@@ -27,10 +24,9 @@ class App {
   public initialize() {
     return new Promise(async (resolve, reject) => {
       try {
-        // Google client must be initialized before router because it will be shared among router controllers.
+
         this.initializeMiddleware();
         this.initializeRouter();
-        this.connectToDatabase();
         resolve(this);
       } catch (err) {
         reject(err);
@@ -67,8 +63,6 @@ class App {
       console.log(`App listening on port ${this.port}`);
     });
   }
-  //todo
-  private connectToDatabase() {}
 }
 
 export default App;
